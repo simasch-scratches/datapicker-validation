@@ -10,6 +10,8 @@ import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import org.vaadin.stefan.fullcalendar.FullCalendar;
+import org.vaadin.stefan.fullcalendar.FullCalendarBuilder;
 
 @PageTitle("Hello World")
 @Route(value = "hello-world", layout = MainLayout.class)
@@ -30,7 +32,9 @@ public class HelloWorldView extends VerticalLayout {
             Notification.show("validate.isOk() = " + status.isOk());
         });
 
-        add(datePicker, validate);
+        FullCalendar calendar = FullCalendarBuilder.create().withScheduler().build();
+
+        add(datePicker, validate, calendar);
     }
 
 }
