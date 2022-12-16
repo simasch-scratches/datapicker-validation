@@ -11,6 +11,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
 
+import java.time.LocalDate;
+
 @PageTitle("Hello World")
 @Route(value = "hello-world", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
@@ -22,6 +24,10 @@ public class HelloWorldView extends VerticalLayout {
         Binder<Person> binder = new Binder<>(Person.class);
 
         DatePicker datePicker = new DatePicker("Birthaday");
+        DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
+        datePickerI18n.setReferenceDate(LocalDate.of(1950, 1, 1));
+        datePicker.setI18n(datePickerI18n);
+
         datePicker.setAutoOpen(false);
         binder.forField(datePicker).bind("birthday");
 
