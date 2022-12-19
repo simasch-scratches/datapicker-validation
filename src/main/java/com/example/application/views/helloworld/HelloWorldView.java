@@ -17,26 +17,32 @@ import java.time.LocalDate;
 @Route(value = "hello-world", layout = MainLayout.class)
 @RouteAlias(value = "", layout = MainLayout.class)
 public class HelloWorldView extends VerticalLayout {
-
     public HelloWorldView() {
         setPadding(true);
-
         Binder<Person> binder = new Binder<>(Person.class);
-
-        DatePicker datePicker = new DatePicker("Birthaday");
-        DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
-        datePickerI18n.setReferenceDate(LocalDate.of(1950, 1, 1));
-        datePicker.setI18n(datePickerI18n);
-
-        datePicker.setAutoOpen(false);
-        binder.forField(datePicker).bind("birthday");
-
+        DatePicker datePicker1 = new DatePicker("Birthday (ref date 1.1.1920");
+        datePicker1.setAutoOpen(false);
+        binder.forField(datePicker1).bind("birthday1");
+        DatePicker datePicker2 = new DatePicker("Birthday (ref date 1.1.1980");
+        datePicker2.setAutoOpen(false);
+        binder.forField(datePicker2).bind("birthday2");
+        DatePicker datePicker3 = new DatePicker("Birthday (ref date 1.1.2040");
+        datePicker3.setAutoOpen(false);
+        binder.forField(datePicker3).bind("birthday2");
+        setReferenceDate(datePicker1, 1920);
+        setReferenceDate(datePicker2, 1980);
+        setReferenceDate(datePicker3, 2040);
         Button validate = new Button("Validate", e -> {
             BinderValidationStatus<Person> status = binder.validate();
             Notification.show("validate.isOk() = " + status.isOk());
         });
-
-        add(datePicker, validate);
+        add(datePicker1, datePicker2, datePicker3, validate);
     }
 
+    private static void setReferenceDate(DatePicker datePicker, int year) {
+        DatePicker.DatePickerI18n datePickerI18n = new DatePicker.DatePickerI18n();
+        datePickerI18n.setDateFormat("dd.MM.yy");
+        datePickerI18n.setReferenceDate(LocalDate.of(year, 1, 1));
+        datePicker.setI18n(datePickerI18n);
+    }
 }
